@@ -1,0 +1,207 @@
+﻿<views:BaseWindow  xmlns:views="clr-namespace:STTNote.Views"
+                   x:Class="STTNote.AppSetting"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:STTNote.Controls"
+        mc:Ignorable="d"
+        Height="510"
+        Width="320"
+        WindowStyle="None"
+        ShowInTaskbar="False"
+        WindowStartupLocation="CenterScreen"
+        AllowsTransparency="True"
+        Background="Transparent"
+        Topmost="True"
+        ResizeMode="NoResize"
+        MouseDown="Window_MouseDown"
+        Loaded="Window_Loaded"
+        xmlns:Selectors="clr-namespace:STTNote.TemplateSelectors"
+        xmlns:converter="clr-namespace:STTNote.Converters"
+        Closing="BaseWindow_Closing">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/STTNote;component/GenericTemplates.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <DataTemplate x:Key="PasswordBoxTemplate">
+                <Border
+                    BorderBrush="LightGray"
+                    BorderThickness="1"
+                    CornerRadius="6"
+                    Margin="3"
+                    Background="{DynamicResource HighlightColor}">
+                    <Grid Margin="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="{Binding Path=Name}"
+                                     Foreground="{DynamicResource TextColor}"
+                                     FontFamily="{DynamicResource AppFont}" />
+                        <PasswordBox
+                            Tag="{Binding Path=Id}"
+                            Grid.Column="1"
+                            PasswordChar="●"
+                            BorderThickness="0 0 0 1"
+                            Background="Transparent"
+                            Margin="0, 0, 10, 0"
+                            Foreground="{DynamicResource TextColor}"
+                            PasswordChanged="PasswordBox_PasswordChanged" />
+                    </Grid>
+                </Border>
+            </DataTemplate>
+
+            <DataTemplate x:Key="SingleTextTemplate">
+                <Border
+                    BorderBrush="LightGray"
+                    BorderThickness="1"
+                    CornerRadius="6"
+                    Margin="2"
+                    Background="{DynamicResource HighlightColor}">
+                    <Grid Margin="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="{Binding Path=Name}"
+                                     Foreground="{DynamicResource TextColor}" />
+                        <TextBox Grid.Column="1"
+                             IsReadOnly="False"
+                             Text="{Binding Path=Value, Mode=TwoWay}"
+                            Margin="0, 0, 10, 0"
+                            BorderThickness="0 0 0 1"
+                            Background="Transparent"
+                            Foreground="{DynamicResource TextColor}" />
+                    </Grid>
+                </Border>
+            </DataTemplate>
+
+            <DataTemplate x:Key="CheckBoxTemplate">
+                <Border
+                    BorderBrush="LightGray"
+                    BorderThickness="1"
+                    CornerRadius="6"
+                    Margin="2"
+                    Background="{DynamicResource HighlightColor}">
+                    <Grid Margin="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="{Binding Path=Name}" Foreground="{DynamicResource TextColor}" />
+                        <CheckBox Grid.Column="1"
+                              Margin="0,7,0,0"
+                              Tag="{Binding Path=SettingType}"
+                              IsChecked="{Binding Path=Value}"
+                              IsThreeState="False" />
+                    </Grid>
+                </Border>
+            </DataTemplate>
+
+            <DataTemplate x:Key="FileSelectTemplate">
+                <Border
+                    BorderBrush="LightGray"
+                    BorderThickness="1"
+                    CornerRadius="6"
+                    Margin="2"
+                    Background="{DynamicResource HighlightColor}">
+                    <Grid Margin="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="60" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="{Binding Path=Name}"
+                                     Foreground="{DynamicResource TextColor}" />
+                        <TextBox Grid.Column="1"
+                             IsReadOnly="False"
+                             Tag="{Binding Path=Id}"
+                             BorderThickness="0 0 0 1"
+                             Background="Transparent"
+                             Text="{Binding Path=Value, Mode=TwoWay}"
+                             Foreground="{DynamicResource TextColor}" />
+                        <Button
+                        Margin="5, 0, 5, 0"
+                        Grid.Column="2"
+                        Content="..."
+                        Background="{DynamicResource HighlightColor}"
+                        Tag="{Binding Path=Id}"
+                        PreviewMouseLeftButtonDown="ConfigButton_SelectFile" >
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="5"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+                    </Grid>
+                </Border>
+            </DataTemplate>
+
+            <DataTemplate x:Key="FolderSelectTemplate">
+                <Border
+                    BorderBrush="LightGray"
+                    BorderThickness="1"
+                    CornerRadius="6"
+                    Margin="2"
+                    Background="{DynamicResource HighlightColor}">
+                    <Grid Margin="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="60" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="{Binding Path=Name}"
+                                     Foreground="{DynamicResource TextColor}" />
+                        <TextBox Grid.Column="1"
+                             IsReadOnly="False"
+                             Tag="{Binding Path=Id}"
+                             BorderThickness="0 0 0 1"
+                             Background="Transparent"
+                             Text="{Binding Path=Value, Mode=TwoWay}"
+                             Foreground="{DynamicResource TextColor}" />
+                        <Button
+                        Margin="5, 0, 5, 0"
+                        Grid.Column="2"
+                        Content="..."
+                        Tag="{Binding Path=Id}"
+                        Background="{DynamicResource HighlightColor}"
+                        PreviewMouseLeftButtonDown="ConfigButton_SelectFolder" >
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="5"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+                    </Grid>
+                </Border>
+            </DataTemplate>
+
+            <Selectors:AppConfigTemplateSelector x:Key="appConfigTemplateSelector" />
+        </ResourceDictionary>
+    </Window.Resources>
+    <Border CornerRadius="10" BorderBrush="LightGray" BorderThickness="1" Background="#d7f1e3">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <controls:AppSettingHeaderControl
+                x:Name="HeaderPanel"
+                Grid.Row="0"
+                Width="600"
+                Margin="-1"
+                HorizontalAlignment="Center" />
+            <ScrollViewer
+                Grid.Row="1"
+                VerticalScrollBarVisibility="Auto">
+                <ItemsControl Padding="5,5,10,5" x:Name="lstConigs"
+                              ItemTemplateSelector="{StaticResource appConfigTemplateSelector}"
+                              Background="Transparent">
+                </ItemsControl>
+            </ScrollViewer>
+        </Grid>
+    </Border>
+</views:BaseWindow>

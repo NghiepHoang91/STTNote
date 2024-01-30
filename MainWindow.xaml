@@ -1,0 +1,119 @@
+﻿<views:BaseWindow  xmlns:views="clr-namespace:STTNote.Views"
+                   x:Class="STTNote.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:converter="clr-namespace:STTNote.Converters"
+        xmlns:controls="clr-namespace:STTNote.Controls"
+        mc:Ignorable="d"
+        ShowInTaskbar="False" WindowStyle="None" ResizeMode="NoResize" Topmost="True"
+        AllowsTransparency="True" Background="Transparent"
+        Title="STT Note" Height="402" Width="300"
+        PreviewKeyDown="Window_PreviewKeyDown">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/STTNote;component/GenericTemplates.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <converter:CheckboxConverter x:Key="CheckboxConverter" />
+            <converter:CheckboxColorConverter x:Key="CheckboxColorConverter" />
+            <converter:CheckboxFontConverter x:Key="CheckboxFontConverter" />
+            <converter:CheckboxDecoConverter x:Key="CheckboxDecoConverter" />
+            <converter:NoteTitleConverter x:Key="NoteTitleConverter" />
+        </ResourceDictionary>
+    </Window.Resources>
+    <Border CornerRadius="10" BorderBrush="Black" BorderThickness="0" Background="#d7f1e3">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <controls:MainWindowHeaderControl x:Name="windowHeader" Grid.Row="0" MouseDown="HeaderControl_MouseDown" />
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1" Padding="0,0,0,5">
+                <ItemsControl Name="icNoteList" Margin="5">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border
+                                BorderBrush="LightGray"
+                                BorderThickness="1"
+                                CornerRadius="6"
+                                Margin="2"
+                                Background="{DynamicResource HighlightColor}">
+                                <Grid Margin="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="26" />
+                                        <ColumnDefinition Width="26" />
+                                        <ColumnDefinition Width="28" />
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Orientation="Horizontal"
+                                                Margin="5, 2, 0, 0">
+                                        <CheckBox
+                                            IsChecked="{Binding NoteStatusCode, Converter={StaticResource CheckboxConverter}}"
+                                            Padding="5, 0, 0, 0"
+                                            Tag="{Binding Id}"
+                                            PreviewMouseUp="CheckBoxMouseClick" />
+                                        <TextBlock x:Name="lblTaskName"
+                                                   Text="{Binding Title, Converter={StaticResource NoteTitleConverter}}"
+                                                   FontStyle="{Binding NoteStatusCode, Converter={StaticResource CheckboxFontConverter}}"
+                                                   Foreground="{Binding NoteStatusCode, Converter={StaticResource CheckboxColorConverter}}"
+                                                   TextDecorations="{Binding NoteStatusCode, Converter={StaticResource CheckboxDecoConverter}}"
+                                                   Tag="{Binding Id}"
+                                                   MouseDown="NoteTitleClicked">
+                                            <TextBlock.ContextMenu>
+                                                <ContextMenu Background="{DynamicResource HighlightColor}">
+                                                    <MenuItem Header="Edit" Click="TextBlockContextMenuEdit_Click" />
+                                                    <MenuItem Header="Export" Click="TextBlockContextMenuExport_Click" />
+                                                    <MenuItem Header="Move To Profile" Click="TextBlockContextMenuMoveProfile_Click" />
+                                                    <MenuItem Header="Mark as completed" Click="TextBlockContextMenuMarkCompleted_Click" />
+                                                    <MenuItem Header="Delete" Click="TextBlockContextMenuDelete_Click" />
+                                                </ContextMenu>
+                                            </TextBlock.ContextMenu>
+                                        </TextBlock>
+                                    </StackPanel>
+                                    <Image x:Name="imgEdit"
+                                       HorizontalAlignment="Left"
+                                       Grid.Column="1"
+                                       Height="18"
+                                       Margin="5, 1, 0, 0"
+                                       VerticalAlignment="Top"
+                                       Width="18"
+                                       Source="/Resources/Edit_256.png"
+                                       Tag="{Binding Id}"
+                                       MouseDown="EditIconClicked"
+                                       Cursor="Hand"
+                                       RenderTransformOrigin="-2.044,0.492" />
+                                    <Image x:Name="imgCopy"
+                                       HorizontalAlignment="Left"
+                                       Grid.Column="2"
+                                       Height="18"
+                                       Margin="5, 0, 0, 0"
+                                       VerticalAlignment="Top"
+                                       Width="18"
+                                       Source="/Resources/Copy_48.png"
+                                       MouseDown="DuplicatedNote"
+                                       Tag="{Binding Id}"
+                                       Cursor="Hand"
+                                       RenderTransformOrigin="-2.044,0.492" />
+                                    <Image x:Name="imgDelete"
+                                       HorizontalAlignment="Left"
+                                       Grid.Column="3"
+                                       Height="18"
+                                       Margin="4, 0, 2, 0"
+                                       VerticalAlignment="Top"
+                                       Width="18"
+                                       Source="/Resources/Delete_48.png"
+                                       MouseDown="DeleteNote"
+                                       Tag="{Binding Id}"
+                                       Cursor="Hand"
+                                       RenderTransformOrigin="-2.044,0.492" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Grid>
+    </Border>
+</views:BaseWindow>
