@@ -20,10 +20,27 @@ namespace STTNote.DataContext
             }
         }
 
-        private readonly string connectionString = @"URI=file:sql.db";
+        private string defaultConnectionString = @"URI=file:sql.db";
+        private string connectionString = "";
 
         public SQLiteConnection GetConnection()
         {
+            var Configs = ConfigHelper.INI.GetFromFile(Consts.Config.CONFIG_PATH);
+            var databaseConfig = Configs.FirstOrDefault(n =>
+            n.Section.Equals(Consts.Config.DATABASE) &&
+            !n.IsComment &&
+            n.Key.Equals(Consts.Config.DATABASE_PATH));
+
+            connectionString = defaultConnectionString;
+            if (databaseConfig?.Value?.IsLocalFilePath() == true)
+            {
+                connectionString = $"URI=file:{databaseConfig.Value}";
+            }
+            else if (databaseConfig?.Value?.IsValidUri() == true)
+            {
+                connectionString = $"URI={databaseConfig.Value}";
+            }
+
             var connection = new SQLiteConnection(connectionString);
             connection.Open();
             return connection;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Text.RegularExpressions;
 
 namespace STTNote.Extensions
@@ -27,6 +28,20 @@ namespace STTNote.Extensions
             }
             catch
             { return null; }
+        }
+
+        public static bool IsLocalFilePath(this string path)
+        {
+            return Path.IsPathRooted(path) && !Uri.IsWellFormedUriString(path, UriKind.Absolute);
+        }
+
+        public static bool IsValidUri(this string uriString)
+        {
+            return Uri.TryCreate(uriString, UriKind.Absolute, out Uri uriResult) &&
+                   (uriResult.Scheme == Uri.UriSchemeHttp ||
+                    uriResult.Scheme == Uri.UriSchemeHttps ||
+                    uriResult.Scheme == Uri.UriSchemeFtp ||
+                    uriResult.Scheme == Uri.UriSchemeFile);
         }
     }
 }

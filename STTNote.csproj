@@ -155,4 +155,10 @@
     </Compile>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Config.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Text;
 
 namespace STTNote.Const
 {
@@ -51,6 +50,13 @@ namespace STTNote.Const
             public const string AUTO_UPDATE = "824b084X-51gd-4d9d-bbea-7ac66081434x";
             public const string SELECTED_PROFILE = "924b074X-61gd-4d9d-bbta-3ac66086434z";
             public const string CREATE_DESKTOP_SHORTCUT = "924x074X-61xd-4d9d-bbxa-3ac66086434y";
+        }
+
+        public class Config
+        {
+            public const string CONFIG_PATH = "Config.ini";
+            public const string DATABASE = "Database";
+            public const string DATABASE_PATH = "Path";
         }
     }
 }
