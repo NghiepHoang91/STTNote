@@ -26,9 +26,10 @@ namespace STTNote
         public EditingMode Mode { set; get; }
         private Note _processingNote { set; get; }
 
-        public int DefaultFontSize { set; get; } = 14;
+        public int DefaultFontSize { set; get; } = 15;
 
-        public static double TextBoxScale { set; get; } = 1.0;
+        private double zoomFactor = 1.0;
+        private const double zoomIncrement = 0.1;
 
         public NoteEditor()
         {
@@ -378,19 +379,50 @@ namespace STTNote
         {
             if (Keyboard.Modifiers == ModifierKeys.Control)
             {
-                if (e.Delta > 0) DoZoomTextbox(0.1);
-                else if (e.Delta < 0) DoZoomTextbox(-0.1);
+                ScrollViewer scrollViewer = FindScrollViewer(BodyContent);
+                if (scrollViewer != null)
+                {
+                    e.Handled = true; // Prevent default zoom
+
+                    if (e.Delta > 0)
+                    {
+                        zoomFactor += zoomIncrement;
+                    }
+                    else
+                    {
+                        zoomFactor -= zoomIncrement;
+                    }
+
+                    if (zoomFactor < 0.1) zoomFactor = 0.1;
+                    if (zoomFactor > 5.0) zoomFactor = 5.0;
+
+                    ScaleTransform scaleTransform = new ScaleTransform(zoomFactor, zoomFactor);
+                    BodyContent.LayoutTransform = scaleTransform;
+
+                    scrollViewer.ScrollToVerticalOffset(0);
+                }
             }
         }
 
         /// TO DO: Zoom make textbox move -> no more moving
-        private void DoZoomTextbox(double changeValue)
+        private ScrollViewer FindScrollViewer(DependencyObject depObj)
         {
-            var newValue = TextBoxScale + changeValue;
-            if (newValue <= 0) newValue = 0.1;
-            TextBoxScale = newValue;
-            txtContent.LayoutTransform.SetValueByName("ScaleX", newValue);
-            txtContent.LayoutTransform.SetValueByName("ScaleY", newValue);
+            if (depObj is ScrollViewer scrollViewer)
+            {
+                return scrollViewer;
+            }
+
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
+            {
+                DependencyObject child = VisualTreeHelper.GetChild(depObj, i);
+                ScrollViewer result = FindScrollViewer(child);
+                if (result != null)
+                {
+                    return result;
+                }
+            }
+
+            return null;
         }
     }
 }

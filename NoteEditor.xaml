@@ -198,30 +198,30 @@
             <Grid Height="5" />
             <Border x:Name="BodyContent"
 					Loaded="BodyContent_Loaded"
-						Margin="0,0,0,4"
+						Margin="0,0,0,0"
 						BorderThickness="1"
 						CornerRadius="3"
-						Padding="0, 0, 0, 5"
+						Padding="0, 0, 0, 0"
 						Background="{DynamicResource AppColor}"
 						BorderBrush="{DynamicResource HighlightColor}"
 						HorizontalAlignment="Stretch"
 						VerticalAlignment="Stretch"
                         PreviewMouseWheel="BodyContent_PreviewMouseWheel">
                 <RichTextBox x:Name="txtContent"
-                                DockPanel.Dock="Top"
-								DataContext="{Binding}"
-								Background="Transparent"
-								Foreground="{DynamicResource TextColor}"
-								FontFamily="{DynamicResource AppFont}"
-								BorderThickness="0"
-								AcceptsTab="True"
-								Margin="3, 5, 3, 0"
-								Padding="0,0,0,10"
-								SelectionChanged="TxtContent_SelectionChanged"
-								ScrollViewer.HorizontalScrollBarVisibility="Auto"
-								ScrollViewer.VerticalScrollBarVisibility="Auto">
+									DockPanel.Dock="Top"
+									DataContext="{Binding}"
+									Background="Transparent"
+									Foreground="{DynamicResource TextColor}"
+									FontFamily="{DynamicResource AppFont}"
+									BorderThickness="0"
+									AcceptsTab="True"
+									Margin="3, 5, 3, 0"
+									Padding="0,0,0,10"
+									SelectionChanged="TxtContent_SelectionChanged"
+									ScrollViewer.HorizontalScrollBarVisibility="Auto"
+									ScrollViewer.VerticalScrollBarVisibility="Auto">
                     <RichTextBox.LayoutTransform>
-                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                        <ScaleTransform ScaleX="0.94" ScaleY="0.94" />
                     </RichTextBox.LayoutTransform>
                 </RichTextBox>
             </Border>
