@@ -6,7 +6,9 @@ using STTNote.Helpers;
 using STTNote.Models;
 using STTNote.Views;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -77,6 +79,12 @@ namespace STTNote
 
             _processingNote.Content = xmlDocument;
             _processingNote.Title = !string.IsNullOrEmpty(txtTitle.Text) ? txtTitle.Text : DateTime.Now.ToString("yyyy/MM/dd - hh:mm:ss");
+            if(ToolStripButtonCalc.IsChecked == true)
+            {
+                var summary = txtTitle.Text;
+                //Todo: Add summary to text content
+                _processingNote.Title = DateTime.Now.ToString("yyyy/MM/dd - hh:mm:ss");
+            }
 
             switch (Mode)
             {
@@ -382,7 +390,8 @@ namespace STTNote
                 ScrollViewer scrollViewer = FindScrollViewer(BodyContent);
                 if (scrollViewer != null)
                 {
-                    e.Handled = true; // Prevent default zoom
+                    // Prevent default zoom
+                    e.Handled = true; 
 
                     if (e.Delta > 0)
                     {
@@ -404,7 +413,6 @@ namespace STTNote
             }
         }
 
-        /// TO DO: Zoom make textbox move -> no more moving
         private ScrollViewer FindScrollViewer(DependencyObject depObj)
         {
             if (depObj is ScrollViewer scrollViewer)
@@ -423,6 +431,36 @@ namespace STTNote
             }
 
             return null;
+        }
+
+        private void doSummaryLines()
+        {
+            TextRange textRange = new TextRange(txtContent.Document.ContentStart, txtContent.Document.ContentEnd);
+            string plainText = textRange.Text;
+
+            var lines = plainText.Split('\n');
+            List<double> numList = new List<double>();
+            foreach (var line in lines)
+            {
+                var convertSuccess = double.TryParse(line, out double result);
+                if (convertSuccess)
+                {
+                    numList.Add(result);
+                }
+            }
+            txtTitle.Text = numList.Sum(n => n).ToString();
+        }
+
+        private void txtContent_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (ToolStripButtonCalc.IsChecked != true) return;
+            doSummaryLines();
+        }
+
+        private void ToolStripButtonCalc_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if (ToolStripButtonCalc.IsChecked == false) return;
+            doSummaryLines();
         }
     }
 }
