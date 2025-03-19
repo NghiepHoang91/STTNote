@@ -42,8 +42,6 @@ namespace STTNote
             txtContent.FontSize = DefaultFontSize;
             txtContent.Focus();
             ToolStripButtonTopmost.IsChecked = this.Topmost;
-
-
             this.Width = 1100;
             this.Height = 700;
 
@@ -85,7 +83,10 @@ namespace STTNote
             {
                 var summary = txtTitle.Text;
                 //Todo: Add summary to text content
-                _processingNote.Title = DateTime.Now.ToString("yyyy/MM/dd - hh:mm:ss");
+                if (string.IsNullOrEmpty(_processingNote.Title))
+                {
+                    _processingNote.Title = DateTime.Now.ToString("yyyy/MM/dd - hh:mm:ss");
+                }
             }
 
             switch (Mode)
