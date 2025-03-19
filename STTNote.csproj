@@ -44,6 +44,7 @@
     <None Remove="Resources\numbering.png" />
     <None Remove="Resources\NumbersList.png" />
     <None Remove="Resources\Paste.png" />
+    <None Remove="Resources\pin.png" />
     <None Remove="Resources\Redo.png" />
     <None Remove="Resources\Strikeout.png" />
     <None Remove="Resources\Underline.png" />
@@ -137,6 +138,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\NumbersList.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\pin.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Redo.png">

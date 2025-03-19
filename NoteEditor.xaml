@@ -112,6 +112,9 @@
                     <ToggleButton x:Name="ToolStripButtonCalc" ToolTip="Calculator" Click="ToolStripButtonCalc_Click">
                         <Image Source="/Resources/Calc.png" Stretch="Fill" Width="16" Height="16"/>
                     </ToggleButton>
+                    <ToggleButton x:Name="ToolStripButtonTopmost" ToolTip="Topmost" Click="ToolStripButtonTopmost_Click">
+                        <Image Source="/Resources/pin.png" Stretch="Fill" Width="16" Height="16"/>
+                    </ToggleButton>
                     <Grid Width="10" />
 
                     <ComboBox

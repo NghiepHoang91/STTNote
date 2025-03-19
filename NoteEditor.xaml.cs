@@ -41,8 +41,10 @@ namespace STTNote
             txtContent.Document.LineHeight = 5;
             txtContent.FontSize = DefaultFontSize;
             txtContent.Focus();
+            ToolStripButtonTopmost.IsChecked = this.Topmost;
 
-            this.Width = 1000;
+
+            this.Width = 1100;
             this.Height = 700;
 
             InitControlSizes();
@@ -461,6 +463,11 @@ namespace STTNote
         {
             if (ToolStripButtonCalc.IsChecked == false) return;
             doSummaryLines();
+        }
+
+        private void ToolStripButtonTopmost_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            this.Topmost = ToolStripButtonTopmost.IsChecked ?? true;
         }
     }
 }
