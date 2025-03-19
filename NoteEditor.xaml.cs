@@ -78,15 +78,21 @@ namespace STTNote
             if (_processingNote == null) _processingNote = new Note();
 
             _processingNote.Content = xmlDocument;
-            _processingNote.Title = !string.IsNullOrEmpty(txtTitle.Text) ? txtTitle.Text : DateTime.Now.ToString("yyyy/MM/dd - hh:mm:ss");
-            if(ToolStripButtonCalc.IsChecked == true)
+            string? timeStamp = DateTime.Now.ToString("yyyy/MM/dd - hh:mm:ss");
+
+            if (ToolStripButtonCalc.IsChecked == true)
             {
                 var summary = txtTitle.Text;
                 //Todo: Add summary to text content
+
                 if (string.IsNullOrEmpty(_processingNote.Title))
                 {
-                    _processingNote.Title = DateTime.Now.ToString("yyyy/MM/dd - hh:mm:ss");
+                    _processingNote.Title = timeStamp;
                 }
+            }
+            else
+            {
+                _processingNote.Title = !string.IsNullOrEmpty(txtTitle.Text) ? txtTitle.Text : timeStamp;
             }
 
             switch (Mode)
